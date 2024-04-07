@@ -41,7 +41,7 @@ async function mainMenu() {
                 await addEmployee();
                 break;
             case 'Update Employee Role':
-                await updateEmployeeRole();
+                await updateEmployeeRoleFunction();
                 break;
             case 'Quit':
                 console.log('Goodbye!');
@@ -159,7 +159,7 @@ async function addEmployee() {
     console.log(`Added new employee: ${employeeData.first_name} ${employeeData.last_name}`);
 }
 
-async function updateEmployeeRole() {
+async function updateEmployeeRoleFunction() {
     const employees = await db.getEmployees();
     const employeeChoices = employees.map(({ id, first_name, last_name }) => ({
         name: `${first_name} ${last_name}`,
