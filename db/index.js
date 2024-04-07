@@ -18,6 +18,33 @@ async function getEmployees() {
     return rows;
 }
 
+// Function to add a new department
+async function addDepartment(departmentName) {
+    const [result] = await connection.query('INSERT INTO department (name) VALUES (?)', [departmentName]);
+    return result.insertId;
+}
+
+// Function to add a new role
+async function addRole(roleTitle, roleSalary, departmentId) {
+    const [result] = await connection.query('INSERT INTO role (title, salary, department_id) VALUES (?, ?, ?)', [roleTitle, roleSalary, departmentId]);
+    return result.insertId;
+}
+
+// Function to add a new employee
+async function addEmployee(firstName, lastName, roleId, managerId) {
+    const [result] = await connection.query('INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?)', [firstName, lastName, roleId, managerId]);
+    return result.insertId;
+}
+
+// Function to update an employee
+async function updateEmployeeRole(employeeId, roleId) {
+    const [result] = await connection.query(
+        'UPDATE employee SET role_id = ? WHERE id = ?',
+        [roleId, employeeId]
+    );
+    return result.affectedRows;
+}
+
 // Function to create a new user with a hashed password
 async function createUser(username, password) {
     const hash = await bcrypt.hash(password, saltRounds);
@@ -39,6 +66,10 @@ module.exports = {
     getDepartments,
     getRoles,
     getEmployees,
+    addDepartment,
+    addRole,
+    addEmployee,
+    updateEmployeeRole,
     createUser,
     verifyUser
 };
